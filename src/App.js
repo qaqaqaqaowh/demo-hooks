@@ -1,24 +1,40 @@
 import logo from './logo.svg';
 import './App.css';
+import {useState, useEffect} from 'react'
+import Another from './Another'
+import numberContext from './numberContext'
 
 function App() {
+
+  const [myNumber, aFunction] = useState(2)
+  const [myArray, fn] = useState([])
+
+  function addOneToState() {
+    aFunction(myNumber + 1)
+    fn([...myArray, myNumber])
+  }
+
+  useEffect(function (){
+    console.log("Hi")
+  }, [myNumber])
+
+  // const addOneToState = () => {
+
+  // }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <numberContext.Provider value={{myNumber}}>
+      <h1>{myNumber} is an {myNumber % 2 == 1 ? "Odd" : "Even"}</h1>
+      <button onClick={addOneToState}>Increase</button>
+      { 
+        myNumber % 2 == 1 ? <Another /> : null
+      }
+      {
+        myArray.map(function(eachItem) {
+          return <Another />
+        })
+      }
+    </numberContext.Provider>
   );
 }
 
